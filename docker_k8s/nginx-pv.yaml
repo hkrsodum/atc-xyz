@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: nginx-volume
+  annotations:
+    pv.kubernetes.io/provisioned-by: driver.longhorn.io
+spec:
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Delete
+  storageClassName: longhorn
+  csi:
+    driver: driver.longhorn.io
+    fsType: ext4
+    volumeHandle: pgvector-volume
+    volumeAttributes:
+      dataLocality: disabled
+      fromBackup: ""
+      fsType: ext4
+      numberOfReplicas: "3"
+      staleReplicaTimeout: "30"
+      storage.kubernetes.io/csiProvisionerIdentity: 1702494057995-8081-driver.longhorn.io

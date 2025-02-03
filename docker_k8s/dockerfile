@@ -1,0 +1,11 @@
+# Using the latest Nginx as base Image
+FROM nginx:latest
+
+#Copying the html files in Nginx Image
+COPY "web/*" "/usr/share/nginx/html/"
+
+# Exposing the required port number
+EXPOSE 80
+
+#Command to follow at start of the Container
+CMD [ "nginx", "-g", "daemon off;" ]
