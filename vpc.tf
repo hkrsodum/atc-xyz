@@ -25,12 +25,28 @@ resource "aws_subnet" "harikumar-subnet-2" {
     Name = "harikumar-subnet-2"
   }
 }
+
+resource "aws_subnet" "harikumar-subnet-3" {
+  vpc_id                  = aws_vpc.harikumar-vpc.id
+  cidr_block              = "20.20.30.0/24"
+  availability_zone       = "us-east-1c"
+  map_public_ip_on_launch = false
+  tags = {
+    Name = "harikumar-subnet-3"
+  }
+}
 resource "aws_security_group" "harikumar-sg-inbound" {
   name   = "harikumar-sg"
   vpc_id = aws_vpc.harikumar-vpc.id
   ingress {
     from_port   = 80
     to_port     = 80
+    protocol    = "TCP"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  ingress {
+    from_port   = 443
+    to_port     = 443
     protocol    = "TCP"
     cidr_blocks = ["0.0.0.0/0"]
   }
@@ -52,6 +68,11 @@ resource "aws_security_group" "harikumar-sg-inbound" {
   depends_on = [aws_vpc.harikumar-vpc, aws_subnet.harikumar-subnet-1, aws_subnet.harikumar-subnet-2]
 }
 
+resource "aws_main_route_table_association" "main" {
+  vpc_id         = aws_vpc.harikumar-vpc.id
+  route_table_id = aws_route_table.harikumar-rt.id
+}
+
 resource "aws_internet_gateway" "harikumar-ig" {
   vpc_id = aws_vpc.harikumar-vpc.id
   tags = {
@@ -67,8 +88,4 @@ resource "aws_route_table" "harikumar-rt" {
   tags = {
     Name = "harikumar-rt"
   }
-}
-resource "aws_route_table_association" "harikumar-rt-assoc-1" {
-  subnet_id      = aws_subnet.harikumar-subnet-1.id
-  route_table_id = aws_route_table.harikumar-rt.id
 }
