@@ -5,7 +5,7 @@ resource "aws_eks_cluster" "atc" {
 
 
   vpc_config {
-    subnet_ids = [aws_subnet.harikumar-subnet-1, aws_subnet.harikumar-subnet-2, aws_subnet.harikumar-subnet-3]
+    subnet_ids = [aws_subnet.harikumar-subnet-1.id, aws_subnet.harikumar-subnet-2.id, aws_subnet.harikumar-subnet-3.id]
   }
 
   # Ensure that IAM Role permissions are created before and deleted after EKS Cluster handling.
@@ -28,7 +28,7 @@ resource "aws_eks_node_group" "atc" {
   cluster_name    = aws_eks_cluster.atc.name
   node_group_name = "atc"
   node_role_arn   = aws_iam_role.eks_node.arn
-  subnet_ids      = [aws_subnet.harikumar-subnet-1, aws_subnet.harikumar-subnet-2, aws_subnet.harikumar-subnet-3]
+  subnet_ids      = [aws_subnet.harikumar-subnet-1.id, aws_subnet.harikumar-subnet-2.id, aws_subnet.harikumar-subnet-3.id]
 
   scaling_config {
     desired_size = 1
