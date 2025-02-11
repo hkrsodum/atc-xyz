@@ -1,7 +1,7 @@
 resource "aws_eks_cluster" "atc" {
   name     = "atc"
   role_arn = aws_iam_role.eks_admin.arn
-#   status = "ACTIVE"
+  #   status = "ACTIVE"
 
 
   vpc_config {
